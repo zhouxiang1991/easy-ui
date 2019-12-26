@@ -1,0 +1,190 @@
+@function selectorToString($selector) {
+  $selector: inspect($selector);
+  $selector: str-slice($selector, 2, -2);
+  @return $selector;
+}
+
+@function containsModifier($selector) {
+  $selector: selectorToString($selector);
+
+  @if str-index($selector, $modifier-separator) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}
+
+@function containWhenFlag($selector) {
+  $selector: selectorToString($selector);
+
+  @if str-index($selector, "." + $state-prefix) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}
+
+@function containPseudoClass($selector) {
+  $selector: selectorToString($selector);
+
+  @if str-index($selector, ":") {
+    @return true;
+  } @else {
+    @return false;
+  }
+}
+
+@function hitAllSpecialNestRule($selector) {
+  @return containsModifier($selector) or containWhenFlag($selector) or
+    containPseudoClass($selector);
+}
+
+@function str-split($string, $separator: ".") {
+  // empty array/list
+  $split-arr: ();
+  // first index of separator in string
+  $index: str-index($string, $separator);
+  // loop through string
+  @while $index != null {
+    // get the substring from the first character to the separator
+    $item: str-slice($string, 1, $index - 1);
+    // push item to array
+    $split-arr: append($split-arr, $item);
+    // remove item and separator from string
+    $string: str-slice($string, $index + 1);
+    // find new index of separator
+    $index: str-index($string, $separator);
+  }
+  // add the remaining string to list (the last item)
+  $split-arr: append($split-arr, $string);
+
+  @return $split-arr;
+}
+
+@function color($path) {
+  $list: str-split($path);
+  $map: $colors;
+  @each $i in $list {
+    $map: map-get($map, $i);
+  }
+
+  $type: type-of($map);
+  @if ($type == "color") {
+    @return $map;
+  }
+
+  @if ($type == "map") {
+    $map: map-get($map, "base");
+    @return $map;
+  }
+
+  @return $map;
+}
+
+@function get($data, $path: "") {
+  @if $path == "" {
+    @return map-get($data, "base");
+  }
+
+  $list: str-split($path);
+  $map: $data;
+  @each $i in $list {
+    $map: map-get($map, $i);
+  }
+
+  $type: type-of($map);
+
+  @if ($type == "map") {
+    $map: map-get($map, "base");
+    @return $map;
+  } @else {
+    @return $map;
+  }
+}
+
+@function map-deep-set($map, $keys, $value) {
+  $maps: ($map);
+  $result: null;
+
+  // If the last key is a map already
+  // Warn the user we will be overriding it with $value
+  @if type-of(nth($keys, -1)) == "map" {
+    @warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+  }
+
+  // If $keys is a single key
+  // Just merge and return
+  @if length($keys) == 1 {
+    @return map-merge(
+      $map,
+      (
+        $keys: $value
+      )
+    );
+  }
+
+  // Loop from the first to the second to last key from $keys
+  // Store the associated map to this key in the $maps list
+  // If the key doesn't exist, throw an error
+  @for $i from 1 through length($keys) - 1 {
+    $current-key: nth($keys, $i);
+    $current-map: nth($maps, -1);
+    $current-get: map-get($current-map, $current-key);
+
+    @if ($current-get == null) {
+      @error "Key `#{$key}` doesn't exist at current level in map.";
+    }
+
+    $maps: append($maps, $current-get);
+  }
+
+  // Loop from the last map to the first one
+  // Merge it with the previous one
+  @for $i from length($maps) through 1 {
+    $current-map: nth($maps, $i);
+    $current-key: nth($keys, $i);
+    $current-val: if($i == length($maps), $value, $result);
+    $result: map-merge(
+      $current-map,
+      (
+        $current-key: $current-val
+      )
+    );
+  }
+  // Return result
+  @return $result;
+}
+
+@function map-deep-merge($parent-map, $child-map) {
+  $result: $parent-map;
+
+  @each $key, $child in $child-map {
+    $parent-has-key: map-has-key($result, $key);
+    $parent-value: map-get($result, $key);
+    $parent-type: type-of($parent-value);
+    $child-type: type-of($child);
+    $parent-is-map: $parent-type == map;
+    $child-is-map: $child-type == map;
+  }
+
+  @if (not $parent-has-key) or
+    ($parent-type != $child-type) or
+    (not ($parent-is-map and $child-is-map))
+  {
+    $result: map-merge(
+      $result,
+      (
+        $key: $child
+      )
+    );
+  } @else {
+    $result: map-merge(
+      $result,
+      (
+        $key: map-deep-merge($parent-value, $child)
+      )
+    );
+  }
+
+  @return $result;
+}

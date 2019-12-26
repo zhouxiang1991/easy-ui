@@ -6,16 +6,26 @@
 // const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // console.log(webpack.Compiler.hooks)
-const publicPath = '/'
+// const publicPath = '/'
 
 // const api = `${publicPath}api`
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 module.exports = {
   lintOnSave: true,
-  publicPath,
+
+  // publicPath,
+
+  // template: 'examples/index.html',
+  // entry: 'examples/main.js',
 
   // outputDir: 'lib',
   // filenameHashing: false,
+  pages: {
+    index: {
+      entry: 'examples/main.js',
+      template: 'examples/index.html',
+    },
+  },
   chainWebpack (config) {
     // config.plugin('analyzer').use(BundleAnalyzerPlugin).end()
     // config.entry('app').clear()
