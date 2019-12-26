@@ -120,11 +120,11 @@
   margin: 0;
   font-weight: get($button, "font.weight");
   line-height: 1;
-  color: get($font, "color");
+  color: get($button, "font.color");
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
-  background: get($button, "background.color");
+  background: get($button, "bg.color");
   border: get($button, "border");
   outline: none;
   box-sizing: border-box;
@@ -145,14 +145,14 @@
 
   &:hover,
   &:focus {
-    color: color("primary");
-    background-color: color("primary.light-32");
-    border-color: color("primary.light-4");
+    color: get($button, "hover.font.color");
+    background-color: get($button, "hover.bg.color");
+    border-color: get($button, "hover.border.color");
   }
 
   &:active {
-    color: color("primary.dark-10");
-    border-color: color("primary.dark-20");
+    color: get($button, "active.font.color");
+    border-color: get($button, "active.border.color");
   }
 
   &::-moz-focus-inner {

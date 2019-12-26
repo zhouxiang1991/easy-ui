@@ -117,7 +117,7 @@ $button: (
     "weight": get($font, "weight"),
     "color": get($font, "color")
   ),
-  "background": (
+  "bg": (
     "color": get($bg, "color")
   ),
   "border": (
@@ -128,6 +128,25 @@ $button: (
   "padding": (
     "vertical": 12px,
     "horizontal": 20px
+  ),
+  "hover": (
+    "font": (
+      "color": color("primary"),
+    ),
+    "bg": (
+      "color": color("primary.lignt-32"),
+    ),
+    "border": (
+      "color": color("primary.lignt-4"),
+    ),
+  ),
+  "active": (
+    "font": (
+      "color": color("primary.dark-10"),
+    ),
+    "border": (
+      "color": color("primary.dark-20"),
+    ),
   ),
   "medium": (
     "font": (
