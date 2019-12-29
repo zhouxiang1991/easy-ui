@@ -39,8 +39,8 @@ $colors: (
   $colors: map-deep-set($colors, $name, $current-color-map);
 }
 
-$colors: map-deep-set($colors, "white", "#fff");
-$colors: map-deep-set($colors, "black", "#000");
+$colors: map-deep-set($colors, "white", #fff);
+$colors: map-deep-set($colors, "black", #000);
 
 $font: (
   "color": (
@@ -59,6 +59,7 @@ $font: (
     "2xl": 20px
   ),
   "line-height": (
+    "min": 1,
     "tight": 1.25,
     "snug": 1.375,
     "base": 1.5,
@@ -94,7 +95,7 @@ $border: (
     "lg": 6px,
     "xl": 8px,
     "circle": 100%,
-    "max": 99999px
+    "full": 99999px
   )
 );
 
@@ -111,77 +112,202 @@ $box-shadow: (
   "light-1": #{"0 2px 12px 0 rgba(0, 0, 0, 0.1)"}
 );
 
-$button: (
-  "font": (
-    "size": get($font, "size"),
-    "weight": get($font, "weight"),
-    "color": get($font, "color")
-  ),
-  "bg": (
-    "color": get($bg, "color")
-  ),
-  "border": (
-    "base": get($border),
-    "color": get($border, "color"),
-    "radius": get($border, "radius")
-  ),
-  "padding": (
-    "vertical": 12px,
-    "horizontal": 20px
-  ),
-  "hover": (
-    "font": (
-      "color": color("primary"),
-    ),
-    "bg": (
-      "color": color("primary.lignt-32"),
-    ),
-    "border": (
-      "color": color("primary.lignt-4"),
-    ),
-  ),
-  "active": (
-    "font": (
-      "color": color("primary.dark-10"),
-    ),
-    "border": (
-      "color": color("primary.dark-20"),
-    ),
-  ),
-  "medium": (
-    "font": (
-      "size": get($font, "size.sm")
-    ),
-    "border": (
-      "radius": get($border, "radius.sm")
-    ),
-    "padding": (
-      "vertical": 10px,
-      "horizontal": 18px
-    )
-  ),
-  "small": (
-    "font": (
-      "size": get($font, "size.xs")
-    ),
-    "border": (
-      "radius" get($border, "radius.xs")
-    ),
-    "padding": (
-      "vertical": 8px,
-      "horizontal": 16px
-    )
-  ),
-  "mini": (
-    "font": (
-      "size": get($font, "size.xs")
-    ),
-    "border": (
-      "radius" get($border, "radius.xs")
-    ),
-    "padding": (
-      "vertical": 6px,
-      "horizontal": 14px
-    )
-  )
-);
+// $button: (
+//   "font": (
+//     "color": get($font, "color")
+//   ),
+//   "bg": (
+//     "color": get($bg, "color")
+//   ),
+//   "border": (
+//     "color": get($border, "color"),
+//   ),
+//   "hover": (
+//     "font": (
+//       "color": color("primary"),
+//     ),
+//     "bg": (
+//       "color": color("primary.light-32"),
+//     ),
+//     "border": (
+//       "color": color("primary.light-4"),
+//     ),
+//   ),
+//   "active": (
+//     "font": (
+//       "color": color("primary.dark-10"),
+//     ),
+//     "border": (
+//       "color": color("primary.dark-20"),
+//     ),
+//   ),
+//   "primary": (
+//     "font": (
+//       "color": color("white"),
+//     ),
+//     "bg": (
+//       "color": color("primary"),
+//     ),
+//     "border": (
+//       "color": color("primary"),
+//     ),
+//     "hover": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": color("primary.light-8"),
+//       ),
+//       "border": (
+//         "color": color("primary.light-8"),
+//       ),
+//     ),
+//     "active": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": color("primary.dark-8"),
+//       ),
+//       "border": (
+//         "color": color("primary.dark-8"),
+//       ),
+//     ),
+//   ),
+
+//   "warning": (
+//     "font": (
+//       "color": color("white"),
+//     ),
+//     "bg": (
+//       "color": color("warning"),
+//     ),
+//     "border": (
+//       "color": color("warning"),
+//     ),
+//     "hover": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": color("warning.light-10"),
+//       ),
+//       "border": (
+//         "color": color("warning.light-10"),
+//       ),
+//     ),
+//     "active": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": color("warning.dark-10"),
+//       ),
+//       "border": (
+//         "color": color("warning.dark-10"),
+//       ),
+//     ),
+//   ),
+//   "success": (
+//     "font": (
+//       "color": color("white"),
+//     ),
+//     "bg": (
+//       "color": color("success"),
+//     ),
+//     "border": (
+//       "color": color("success"),
+//     ),
+//     "hover": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": color("success.light-16"),
+//       ),
+//       "border": (
+//         "color": color("success.light-16"),
+//       ),
+//     ),
+//     "active": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": color("success.dark-16"),
+//       ),
+//       "border": (
+//         "color": color("success.dark-16"),
+//       ),
+//     ),
+//   ),
+//   "danger": (
+//     "font": (
+//       "color": color("white"),
+//     ),
+//     "bg": (
+//       "color": color("danger"),
+//     ),
+//     "border": (
+//       "color": color("danger"),
+//     ),
+//     "hover": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": mix(#fff, color("danger"), 30%),
+//       ),
+//       "border": (
+//         "color": mix(#fff, color("danger"), 30%),
+//       ),
+//     ),
+//     "active": (
+//       "font": (
+//         "color": color("white"),
+//       ),
+//       "bg": (
+//         "color": mix(#000, color("danger"), 30%),
+//       ),
+//       "border": (
+//         "color": mix(#000, color("danger"), 30%),
+//       ),
+//     ),
+//   ),
+//   // "medium": (
+//   //   "font": (
+//   //     "size": get($font, "size.sm")
+//   //   ),
+//   //   "border": (
+//   //     "radius": get($border, "radius.sm")
+//   //   ),
+//   //   "padding": (
+//   //     "vertical": 10px,
+//   //     "horizontal": 18px
+//   //   )
+//   // ),
+//   // "small": (
+//   //   "font": (
+//   //     "size": get($font, "size.xs")
+//   //   ),
+//   //   "border": (
+//   //     "radius" get($border, "radius.xs")
+//   //   ),
+//   //   "padding": (
+//   //     "vertical": 8px,
+//   //     "horizontal": 16px
+//   //   )
+//   // ),
+//   // "mini": (
+//   //   "font": (
+//   //     "size": get($font, "size.xs")
+//   //   ),
+//   //   "border": (
+//   //     "radius" get($border, "radius.xs")
+//   //   ),
+//   //   "padding": (
+//   //     "vertical": 6px,
+//   //     "horizontal": 14px
+//   //   )
+//   // )
+// );

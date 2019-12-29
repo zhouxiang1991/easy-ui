@@ -21,7 +21,7 @@
 /* BEM
  -------------------------- */
 // block
-@mixin b($block) {
+@mixin block($block) {
   $B: $component-prefix + $hyphen + $block !global;
 
   .#{$B} {
@@ -30,7 +30,7 @@
 }
 
 // element
-@mixin e($element) {
+@mixin el($element) {
   $E: $element !global;
   $selector: &;
   $currentSelector: "";
@@ -43,25 +43,31 @@
       ","};
   }
 
-  @if hitAllSpecialNestRule($selector) {
-    @at-root {
-      #{$selector} {
-        #{$currentSelector} {
-          @content;
-        }
-      }
-    }
-  } @else {
     @at-root {
       #{$currentSelector} {
         @content;
       }
     }
-  }
+
+  // @if hitAllSpecialNestRule($selector) {
+  //   @at-root {
+  //     #{$selector} {
+  //       #{$currentSelector} {
+  //         @content;
+  //       }
+  //     }
+  //   }
+  // } @else {
+  //   @at-root {
+  //     #{$currentSelector} {
+  //       @content;
+  //     }
+  //   }
+  // }
 }
 
 // modifier
-@mixin m($modifier) {
+@mixin modifier($modifier) {
   $selector: &;
   $currentSelector: "";
   @each $unit in $modifier {
@@ -79,8 +85,39 @@
   }
 }
 
-@mixin pseudo($pseudo) {
-  @at-root #{&}#{":#{$pseudo}"} {
+// status
+@mixin is($statusName) {
+  $currentSelector: $status-prefix + "-" + $statusName;
+
+  &.#{$currentSelector} {
     @content;
+  }
+}
+
+// 伪类
+@mixin pseudo($pseudo) {
+  $selector: '';
+  @each $i in $pseudo {
+    $selector: #{&}#{":#{$i}"}, #{$selector}
+  }
+
+  @at-root { 
+    #{$selector} {
+      @content;
+    }
+  }
+}
+
+// 伪元素
+@mixin pseudo-el($pseudo) {
+  $selector: '';
+  @each $i in $pseudo {
+    $selector: #{&}#{"::#{$i}"}, #{$selector}
+  }
+
+  @at-root { 
+    #{$selector} {
+      @content;
+    }
   }
 }

@@ -3,6 +3,7 @@ import {
   ELEMENT_SEPARATOR,
   HYPHEN,
   MODIFIER_SEPARATOR,
+  STATUS_PREFIX,
 } from '../constant/bem'
 
 export function b () {
@@ -36,4 +37,8 @@ export function m (elementName, modifierName, value) {
   }
 
   return ''
+}
+
+export function s (statusName, value) {
+  return value ? STATUS_PREFIX + HYPHEN + statusName : ''
 }

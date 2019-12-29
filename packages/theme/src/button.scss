@@ -4,37 +4,6 @@
 @import "./mixins/mixins.scss";
 @import "./mixins/utils.scss";
 
-// @mixin button-plain($color) {
-//   color: $color;
-//   background: mix($--color-white, $color, 90%);
-//   border-color: mix($--color-white, $color, 60%);
-
-//   &:hover,
-//   &:focus {
-//     color: $--color-white;
-//     background: $color;
-//     border-color: $color;
-//   }
-
-//   &:active {
-//     color: $--color-white;
-//     background: mix($--color-black, $color, $--button-active-shade-percent);
-//     border-color: mix($--color-black, $color, $--button-active-shade-percent);
-//     outline: none;
-//   }
-
-//   &.is-disabled {
-//     &,
-//     &:hover,
-//     &:focus,
-//     &:active {
-//       color: mix($--color-white, $color, 40%);
-//       background-color: mix($--color-white, $color, 90%);
-//       border-color: mix($--color-white, $color, 80%);
-//     }
-//   }
-// }
-
 @mixin button-size(
   $padding-vertical,
   $padding-horizontal,
@@ -45,87 +14,66 @@
   font-size: $font-size;
   border-radius: $border-radius;
 
-  &.is-round {
-    padding: $padding-vertical $padding-horizontal;
+  @include is(round) {
+    border-radius: get($border, 'radius.full');
   }
 }
 
-// @mixin button-variant($color, $background-color, $border-color) {
-//   color: $color;
-//   background-color: $background-color;
-//   border-color: $border-color;
+@mixin button-color($color, $bg-color, $border-color) {
+  color: $color;
+  background-color: $bg-color;
+  border-color: $border-color;
 
-//   &:hover,
-//   &:focus {
-//     color: $color;
-//     background: mix(
-//       $--color-white,
-//       $background-color,
-//       $--button-hover-tint-percent
-//     );
-//     border-color: mix(
-//       $--color-white,
-//       $border-color,
-//       $--button-hover-tint-percent
-//     );
-//   }
+  @include pseudo(hover focus) {
+    color: $color;
+    background: light($bg-color, 30%);
+    border-color: light($bg-color, 30%);
+  }
 
-//   &:active {
-//     color: $color;
-//     background: mix(
-//       $--color-black,
-//       $background-color,
-//       $--button-active-shade-percent
-//     );
-//     border-color: mix(
-//       $--color-black,
-//       $border-color,
-//       $--button-active-shade-percent
-//     );
-//     outline: none;
-//   }
+  @include pseudo(active) {
+    color: $color;
+    background: dark($bg-color, 30%);
+    border-color: dark($bg-color, 30%);
+  }
 
-//   &.is-active {
-//     color: $color;
-//     background: mix(
-//       $--color-black,
-//       $background-color,
-//       $--button-active-shade-percent
-//     );
-//     border-color: mix(
-//       $--color-black,
-//       $border-color,
-//       $--button-active-shade-percent
-//     );
-//   }
+  @include is(plain) {
+    background-color: light($bg-color, 40%);
 
-//   &.is-disabled {
-//     &,
-//     &:hover,
-//     &:focus,
-//     &:active {
-//       color: $--color-white;
-//       background-color: mix($background-color, $--color-white);
-//       border-color: mix($border-color, $--color-white);
-//     }
-//   }
+    @include pseudo(hover focus) {
+      background-color: $bg-color;
+      border-color: $bg-color;
+    }
 
-//   &.is-plain {
-//     @include button-plain($background-color);
-//   }
-// }
+    @include pseudo(active) {
+      color: $color;
+      background: dark($bg-color, 30%);
+      border-color: dark($bg-color, 30%);
+    }
+  }
 
-@include b(button) {
+  @include is(disabled) {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      color: $color;
+      background-color: $bg-color;
+      border-color: $border-color;
+    }
+  }
+}
+
+@include block(button) {
   display: inline-block;
   margin: 0;
-  font-weight: get($button, "font.weight");
-  line-height: 1;
-  color: get($button, "font.color");
+  color:get($font, "color");
+  background-color: get($bg, "color");
+  font-weight: get($font, "weight");
+  line-height: get($font, 'line-height.min');
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
-  background: get($button, "bg.color");
-  border: get($button, "border");
+  border: get($border);
   outline: none;
   box-sizing: border-box;
   transition: 0.1s;
@@ -136,189 +84,142 @@
     margin-left: 10px;
   }
 
-  @include button-size(
-    get($button, "padding.vertical"),
-    get($button, "padding.horizontal"),
-    get($button, "font.size"),
-    get($button, "border.radius")
-  );
-
-  &:hover,
-  &:focus {
-    color: get($button, "hover.font.color");
-    background-color: get($button, "hover.bg.color");
-    border-color: get($button, "hover.border.color");
-  }
-
-  &:active {
-    color: get($button, "active.font.color");
-    border-color: get($button, "active.border.color");
-  }
-
-  &::-moz-focus-inner {
+  @include pseudo-el(-moz-focus-inner) {
     border: 0;
   }
 
-  // @include m(plain) {
-  //   &:hover,
-  //   &:focus {
-  //     color: $--color-primary;
-  //     background: $--color-white;
-  //     border-color: $--color-primary;
-  //   }
+  @include button-size(
+    12px,
+    20px,
+    get($font, "size"),
+    get($border, "radius")
+  );
 
-  //   &:active {
-  //     color: mix(
-  //       $--color-black,
-  //       $--color-primary,
-  //       $--button-active-shade-percent
-  //     );
-  //     background: $--color-white;
-  //     border-color: mix(
-  //       $--color-black,
-  //       $--color-primary,
-  //       $--button-active-shade-percent
-  //     );
-  //     outline: none;
-  //   }
-  // }
+  @include pseudo(hover focus) {
+    color: color("primary");
+    background-color: light(color("primary"), 60%);
+    border-color: light(color("primary"), 30%);
+  }
 
-  // @include m(disabled) {
-  //   &,
-  //   &:hover,
-  //   &:focus {
-  //     color: $--button-disabled-font-color;
-  //     cursor: not-allowed;
-  //     background-color: $--button-disabled-background-color;
-  //     background-image: none;
-  //     border-color: $--button-disabled-border-color;
-  //   }
+  @include pseudo(active) {
+    color: dark(color("primary"), 20%);
+    background-color: light(color("primary"), 60%);
+    border-color: dark(color("primary"), 20%);
+  }
 
-  //   &.el-button--text {
-  //     background-color: transparent;
-  //   }
+  @include is(plain) {
+    background-color: color("white");
 
-  //   &.is-plain {
-  //     &,
-  //     &:hover,
-  //     &:focus {
-  //       color: $--button-disabled-font-color;
-  //       background-color: $--color-white;
-  //       border-color: $--button-disabled-border-color;
-  //     }
-  //   }
-  // }
+    @include pseudo(hover focus) {
+      background-color: color("white");
+      border-color: color("primary");
+    }
 
-  // @include m(round) {
-  //   padding: 12px 23px;
-  //   border-radius: 20px;
-  // }
+    @include pseudo(active) {
+      color: dark(color("primary"), 20%);
+      border-color: dark(color("primary"), 20%);
+    }
+  }
 
-  // @include m(circle) {
-  //   padding: $--button-padding-vertical;
-  //   border-radius: 50%;
-  // }
+  @include is(disabled) {
+    &,
+    &:hover,
+    &:focus {
+      cursor: not-allowed;
+      opacity: .5;
+      color: get($font, "color");
+      background-color: get($bg, "color");
+      border-color: get($border, "color");
+    }
+  }
 
-  // @include m(primary) {
-  //   @include button-variant(
-  //     $--button-primary-font-color,
-  //     $--button-primary-background-color,
-  //     $--button-primary-border-color
-  //   );
-  // }
-  // @include m(success) {
-  //   @include button-variant(
-  //     $--button-success-font-color,
-  //     $--button-success-background-color,
-  //     $--button-success-border-color
-  //   );
-  // }
-  // @include m(warning) {
-  //   @include button-variant(
-  //     $--button-warning-font-color,
-  //     $--button-warning-background-color,
-  //     $--button-warning-border-color
-  //   );
-  // }
-  // @include m(danger) {
-  //   @include button-variant(
-  //     $--button-danger-font-color,
-  //     $--button-danger-background-color,
-  //     $--button-danger-border-color
-  //   );
-  // }
-  // @include m(info) {
-  //   @include button-variant(
-  //     $--button-info-font-color,
-  //     $--button-info-background-color,
-  //     $--button-info-border-color
-  //   );
-  // }
-  // @include m(medium) {
-  //   @include button-size(
-  //     $--button-medium-padding-vertical,
-  //     $--button-medium-padding-horizontal,
-  //     $--button-medium-font-size,
-  //     $--button-medium-border-radius
-  //   );
-  //   @include m(circle) {
-  //     padding: $--button-medium-padding-vertical;
-  //   }
-  // }
-  // @include m(small) {
-  //   @include button-size(
-  //     $--button-small-padding-vertical,
-  //     $--button-small-padding-horizontal,
-  //     $--button-small-font-size,
-  //     $--button-small-border-radius
-  //   );
-  //   @include m(circle) {
-  //     padding: $--button-small-padding-vertical;
-  //   }
-  // }
-  // @include m(mini) {
-  //   @include button-size(
-  //     $--button-mini-padding-vertical,
-  //     $--button-mini-padding-horizontal,
-  //     $--button-mini-font-size,
-  //     $--button-mini-border-radius
-  //   );
-  //   @include m(circle) {
-  //     padding: $--button-mini-padding-vertical;
-  //   }
-  // }
-  // @include m(text) {
-  //   padding-right: 0;
-  //   padding-left: 0;
-  //   color: $--color-primary;
-  //   background: transparent;
-  //   border-color: transparent;
+  @include modifier(primary) {
+    @include button-color(
+      color("white"),
+      color("primary"),
+      color("primary"),
+    );
+  }
 
-  //   &:hover,
-  //   &:focus {
-  //     color: mix(
-  //       $--color-white,
-  //       $--color-primary,
-  //       $--button-hover-tint-percent
-  //     );
-  //     background-color: transparent;
-  //     border-color: transparent;
-  //   }
+  @include modifier(warning) {
+    @include button-color(
+      color("white"),
+      color("warning"),
+      color("warning"),
+    );
+  }
 
-  //   &:active {
-  //     color: mix(
-  //       $--color-black,
-  //       $--color-primary,
-  //       $--button-active-shade-percent
-  //     );
-  //     background-color: transparent;
-  //     border-color: transparent;
-  //   }
+  @include modifier(success) {
+    @include button-color(
+      color("white"),
+      color("success"),
+      color("success"),
+    );
+  }
 
-  //   &.is-disabled,
-  //   &.is-disabled:hover,
-  //   &.is-disabled:focus {
-  //     border-color: transparent;
-  //   }
-  // }
+  @include modifier(danger) {
+    @include button-color(
+      color("white"),
+      color("danger"),
+      color("danger"),
+    );
+  }
+
+  @include modifier(medium) {
+    @include button-size(
+      10px,
+      18px,
+      get($font, "size.sm"),
+      get($border, "radius.sm")
+    );
+  }
+
+  @include modifier(small) {
+    @include button-size(
+      8px,
+      16px,
+      get($font, "size.xs"),
+      get($border, "radius.xs")
+    );
+  }
+
+  @include modifier(mini) {
+    @include button-size(
+      6px,
+      14px,
+      get($font, "size.sm"),
+      get($border, "radius.sm")
+    );
+  }
+
+  @include modifier(text) {
+    padding-right: 0;
+    padding-left: 0;
+    color: color("primary");
+    background: transparent;
+    border-color: transparent;
+
+    @include pseudo(hover focus active) {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    @include pseudo(hover) {
+      color: light(color("primary"), 30%)
+    }
+
+    @include pseudo(active) {
+      color: dark(color("primary"), 30%)
+    }
+
+    @include is(disabled) {
+      background-color: transparent;
+      border-color: transparent;
+
+      @include pseudo(hover focus active) {
+        background-color: transparent;
+        border-color: transparent;
+      }
+    }
+  }
 }

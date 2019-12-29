@@ -5,6 +5,7 @@ import {
   b,
   e,
   m,
+  s,
 } from './utils/bem'
 
 const components = [Button]
@@ -17,6 +18,7 @@ const install = function (Vue, opts = {}) {
   Vue.prototype.$b = b
   Vue.prototype.$e = e
   Vue.prototype.$m = m
+  Vue.prototype.$s = s
 }
 
 if (typeof window !== 'undefined' && window.Vue) {

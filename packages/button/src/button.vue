@@ -4,10 +4,9 @@
       $b(),
       $m(type, true),
       $m(size, true),
-      $m('disabled', disabled),
-      $m('plain', plain),
-      $m('round', round),
-      $m('circle', circle)
+      $s('disabled', disabled),
+      $s('plain', plain),
+      $s('round', round)
     ]"
     :type="nativeType"
     :disabled="disabled"
@@ -25,8 +24,6 @@ export default {
     plain: Boolean,
 
     round: Boolean,
-
-    circle: Boolean,
 
     disabled: Boolean,
 
