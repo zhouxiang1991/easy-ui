@@ -33,7 +33,7 @@ $colors: (
       $key: $type + "-" + $i;
       $current-color-map: map-deep-set($current-color-map, $key, $color);
     }
-    $i: $i - 2;
+    $i: $i - 5;
   }
 
   $colors: map-deep-set($colors, $name, $current-color-map);

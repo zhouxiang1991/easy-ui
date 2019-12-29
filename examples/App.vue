@@ -3,7 +3,6 @@
     <b-button
       plain
       round
-      disabled
     >
       测试按钮
     </b-button>
@@ -51,5 +50,11 @@ export default {
   name: 'App',
 
   components: { BButton },
+
+  methods: {
+    abc () {
+      console.log('ab')
+    },
+  },
 }
 </script>
