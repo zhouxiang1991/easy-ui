@@ -2,24 +2,6 @@
 @import "../common/variables.scss";
 @import "./config.scss";
 
-/* Placeholder
- -------------------------- */
-@mixin placeholder {
-  &::-webkit-input-placeholder {
-    @content;
-  }
-
-  &::-moz-placeholder {
-    @content;
-  }
-
-  &:-ms-input-placeholder {
-    @content;
-  }
-}
-
-/* BEM
- -------------------------- */
 // block
 @mixin block($block) {
   $B: $component-prefix + $hyphen + $block !global;
@@ -48,22 +30,6 @@
         @content;
       }
     }
-
-  // @if hitAllSpecialNestRule($selector) {
-  //   @at-root {
-  //     #{$selector} {
-  //       #{$currentSelector} {
-  //         @content;
-  //       }
-  //     }
-  //   }
-  // } @else {
-  //   @at-root {
-  //     #{$currentSelector} {
-  //       @content;
-  //     }
-  //   }
-  // }
 }
 
 // modifier
@@ -94,11 +60,16 @@
   }
 }
 
+// pseudo
 // 伪类
 @mixin pseudo($pseudo) {
   $selector: '';
   @each $i in $pseudo {
-    $selector: #{&}#{":#{$i}"}, #{$selector}
+    @if $selector == "" {
+      $selector: #{&}#{":#{$i}"}
+    } @else {
+      $selector: #{$selector}, #{&}#{":#{$i}"}
+    }
   }
 
   @at-root { 
@@ -112,7 +83,11 @@
 @mixin pseudo-el($pseudo) {
   $selector: '';
   @each $i in $pseudo {
-    $selector: #{&}#{"::#{$i}"}, #{$selector}
+    @if $selector == "" {
+      $selector: #{&}#{"::#{$i}"}
+    } @else {
+      $selector: #{$selector}, #{&}#{"::#{$i}"}
+    }
   }
 
   @at-root { 
@@ -120,4 +95,210 @@
       @content;
     }
   }
+}
+// pseudo
+
+// selector
+// 兄弟选择器
+@mixin next() {
+  & + & {
+    @content;
+  }
+}
+
+// placeholder
+@mixin placeholder {
+  $selector: pseudo-el(
+    -webkit-input-placeholder
+    -moz-placeholder
+    -ms-input-placeholder
+    );
+
+  @at-root {
+    #{$selector} {
+      @content;
+    }
+  }
+}
+// selector
+
+// padding
+@mixin px ($value) {
+  padding-left: $value;
+  padding-right: $value;
+}
+
+@mixin py ($value) {
+  padding-top: $value;
+  padding-bottom: $value;
+}
+
+// margin
+@mixin mx ($value) {
+  margin-left: $value;
+  margin-right: $value;
+}
+
+@mixin my ($value) {
+  margin-left: $value;
+  margin-right: $value;
+}
+
+// utils
+@mixin same ($property, $value) {
+  @each $i in $property {
+    #{$i}: $value;
+  }
+}
+
+// border 
+@mixin border-normal {
+  border: get($border, "normal"),
+}
+
+@mixin border-color-normal {
+  border-color: get($border, "color.normal"),
+}
+
+@mixin border-color-light-1 {
+  border-color: get($border, "color.light-1");
+}
+
+@mixin border-color-light-2 {
+  border-color: get($border, "color.light-2");
+}
+
+@mixin border-width-normal {
+  border-width: get($border, "width.normal");
+}
+
+@mixin border-style-normal {
+  border-width: get($border, "style.normal");
+}
+
+@mixin border-radius-xs {
+  border-radius: get($border, "radius.xs");
+}
+
+@mixin border-radius-sm {
+  border-radius: get($border, "radius.sm");
+}
+
+@mixin border-radius-normal {
+  border-radius: get($border, "radius.normal");
+}
+
+@mixin border-radius-lg {
+  border-radius: get($border, "radius.lg");
+}
+
+@mixin border-radius-xl {
+  border-radius: get($border, "radius.xl");
+}
+
+@mixin border-radius-circle {
+  border-radius: get($border, "radius.circle");
+}
+
+@mixin border-radius-full {
+  border-radius: get($border, "radius.full");
+}
+
+// color
+@mixin color-normal {
+  color: get($color, "normal");
+}
+
+@mixin color-regular {
+  color: get($color, "regular");
+}
+
+@mixin color-secondary {
+  color: get($color, "secondary");
+}
+
+@mixin color-disabled {
+  color: get($color, "disabled");
+}
+
+@mixin color-placeholder {
+  color: get($color, "placeholder");
+}
+
+// font-size
+@mixin font-size-xs {
+  font-size: get($font, "size.xs");
+}
+
+@mixin font-size-sm {
+  font-size: get($font, "size.sm");
+}
+
+@mixin font-size-normal {
+  font-size: get($font, "size.normal");
+}
+
+@mixin font-size-lg {
+  font-size: get($font, "size.lg");
+}
+
+@mixin font-size-xl {
+  font-size: get($font, "size.xl");
+}
+
+// line-height
+@mixin line-height-tight {
+  line-height: get($line-height, "tight");
+}
+
+@mixin line-height-snug {
+  line-height: get($line-height, "snug");
+}
+
+@mixin line-height-normal {
+  line-height: get($line-height, "normal");
+}
+
+@mixin line-height-relaxed {
+  line-height: get($line-height, "relaxed");
+}
+
+@mixin line-height-loose {
+  line-height: get($line-height, "loose");
+}
+
+// font-weight
+@mixin font-weight-thin {
+  font-weight: get($font, "weight.thin");
+}
+
+@mixin font-weight-normal {
+  font-weight: get($font, "weight.normal");
+}
+
+@mixin font-weight-bold {
+  font-weight: get($font, "weight.bold");
+}
+
+
+// background
+@mixin bg-color-normal {
+  background-color: get($bg, "color.normal")
+}
+
+@mixin bg-color-light-1 {
+  background-color: get($bg, "color.light-1")
+}
+
+// box-shadow
+@mixin box-shadow-dark-1 {
+  box-shadow: get($box-shadow, "dark-1");
+}
+
+@mixin box-shadow-normal {
+  box-shadow: get($box-shadow, 'normal');
+}
+
+@mixin box-shadow-light-1 {
+  box-shadow: get($box-shadow, "light-1");
 }

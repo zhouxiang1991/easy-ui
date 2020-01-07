@@ -15,7 +15,7 @@
   border-radius: $border-radius;
 
   @include is(round) {
-    border-radius: get($border, 'radius.full');
+    @include border-radius-full;
   }
 }
 
@@ -26,36 +26,49 @@
 
   @include pseudo(hover focus) {
     color: $color;
-    background: light($bg-color, 30%);
-    border-color: light($bg-color, 30%);
+
+    @include same(
+      background-color
+      border-color,
+      light($bg-color, 30%)
+    )
   }
 
   @include pseudo(active) {
     color: $color;
-    background: dark($bg-color, 30%);
-    border-color: dark($bg-color, 30%);
+
+    @include same(
+      background-color
+      border-color,
+      dark($bg-color, 30%)
+    )
   }
 
   @include is(plain) {
     background-color: light($bg-color, 40%);
 
     @include pseudo(hover focus) {
-      background-color: $bg-color;
-      border-color: $bg-color;
+
+      @include same(
+        background-color
+        border-color,
+        $bg-color
+      )
     }
 
     @include pseudo(active) {
       color: $color;
-      background: dark($bg-color, 30%);
-      border-color: dark($bg-color, 30%);
+
+      @include same(
+        background-color
+        border-color,
+        dark($bg-color, 30%)
+      )
     }
   }
 
   @include is(disabled) {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
+    &, #{pseudo(hover focus active)} {
       color: $color;
       background-color: $bg-color;
       border-color: $border-color;
@@ -66,21 +79,26 @@
 @include block(button) {
   display: inline-block;
   margin: 0;
-  color:get($font, "color");
-  background-color: get($bg, "color");
-  font-weight: get($font, "weight");
-  line-height: get($font, 'line-height.min');
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
-  border: get($border);
-  outline: none;
   box-sizing: border-box;
   transition: 0.1s;
-  -webkit-appearance: none;
-  user-select: none;
 
-  & + & {
+  @include border-normal;
+  @include color-normal;
+  @include bg-color-normal;
+  @include font-weight-normal;
+  @include line-height-tight;
+
+  @include same(
+    outline
+    -webkit-appearance
+    user-select,
+    none
+  );
+
+  @include next {
     margin-left: 10px;
   }
 
@@ -91,8 +109,8 @@
   @include button-size(
     12px,
     20px,
-    get($font, "size"),
-    get($border, "radius")
+    get($color, "normal"),
+    get($border, "radius.normal")
   );
 
   @include pseudo(hover focus) {
@@ -102,9 +120,13 @@
   }
 
   @include pseudo(active) {
-    color: dark(color("primary"), 20%);
     background-color: light(color("primary"), 60%);
-    border-color: dark(color("primary"), 20%);
+
+    @include same(
+      color
+      border-color,
+      dark(color("primary"), 20%)
+    );
   }
 
   @include is(plain) {
@@ -116,20 +138,25 @@
     }
 
     @include pseudo(active) {
-      color: dark(color("primary"), 20%);
-      border-color: dark(color("primary"), 20%);
+      @include same(
+        color
+        border-color,
+        dark(color("primary"), 20%)
+      );
     }
   }
 
   @include is(disabled) {
-    &,
-    &:hover,
-    &:focus {
+    &, #{pseudo(hover focus)} {
       cursor: not-allowed;
       opacity: .5;
-      color: get($font, "color");
-      background-color: get($bg, "color");
-      border-color: get($border, "color");
+
+      @include same(
+        color
+        background-color
+        border-color,
+        get($color, "normal")
+      );
     }
   }
 
@@ -193,15 +220,21 @@
   }
 
   @include modifier(text) {
-    padding-right: 0;
-    padding-left: 0;
     color: color("primary");
-    background: transparent;
-    border-color: transparent;
+
+    @include px(0);
+    @include same(
+      background-color
+      border-color,
+      transparent
+    );
 
     @include pseudo(hover focus active) {
-      background-color: transparent;
-      border-color: transparent;
+      @include same(
+        background-color
+        border-color,
+        transparent
+      );
     }
 
     @include pseudo(hover) {
@@ -213,12 +246,18 @@
     }
 
     @include is(disabled) {
-      background-color: transparent;
-      border-color: transparent;
+      @include same(
+        background-color
+        border-color,
+        transparent
+      );
 
       @include pseudo(hover focus active) {
-        background-color: transparent;
-        border-color: transparent;
+        @include same(
+          background-color
+          border-color,
+          transparent
+        );
       }
     }
   }

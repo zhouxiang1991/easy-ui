@@ -40,6 +40,31 @@
 //   @return containsModifier($selector) or containWhenFlag($selector) or
 //     containPseudoClass($selector);
 // }
+@function pseudo($pseudo) {
+  $selector: '';
+  @each $i in $pseudo {
+    @if $selector == "" {
+      $selector: #{"&:#{$i}"}
+    } @else {
+      $selector: #{$selector}, #{"&:#{$i}"}
+    }
+  }
+
+  @return $selector
+}
+
+@function pseudo-el($pseudo) {
+  $selector: '';
+  @each $i in $pseudo {
+    @if $selector == "" {
+      $selector: #{"&::#{$i}"}
+    } @else {
+      $selector: #{$selector}, #{"&::#{$i}"}
+    }
+  }
+
+  @return $selector
+}
 
 @function str-split($string, $separator: ".") {
   // empty array/list
@@ -76,7 +101,7 @@
   }
 
   @if ($type == "map") {
-    $map: map-get($map, "base");
+    $map: map-get($map, "normal");
     @return $map;
   }
 
@@ -85,7 +110,7 @@
 
 @function get($data, $path: "") {
   @if $path == "" {
-    @return map-get($data, "base");
+    @return map-get($data, "normal");
   }
 
   $list: str-split($path);
@@ -97,7 +122,7 @@
   $type: type-of($map);
 
   @if ($type == "map") {
-    $map: map-get($map, "base");
+    $map: map-get($map, "normal");
     @return $map;
   } @else {
     @return $map;

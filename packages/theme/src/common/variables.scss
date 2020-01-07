@@ -14,7 +14,7 @@ $colors: (
     $colors,
     $name,
     (
-      base: $current-color
+      normal: $current-color
     )
   );
   $current-color-map: map-get($colors, $name);
@@ -33,7 +33,7 @@ $colors: (
       $key: $type + "-" + $i;
       $current-color-map: map-deep-set($current-color-map, $key, $color);
     }
-    $i: $i - 5;
+    $i: $i - 2;
   }
 
   $colors: map-deep-set($colors, $name, $current-color-map);
@@ -42,56 +42,52 @@ $colors: (
 $colors: map-deep-set($colors, "white", #fff);
 $colors: map-deep-set($colors, "black", #000);
 
+$line-height: (
+  "tight": 1,
+  "snug": 1.25,
+  "normal": 1.5,
+  "relaxed": 1.75,
+  "loose": 2
+);
+
+$color: (
+  "placeholder": color("grey.light-30"),
+  "disabled": color("grey.light-20"),
+  "secondary": color("grey.light-12"),
+  "normal": color("grey.dark-30"),
+  "title": color("grey.dark-40"),
+);
+
 $font: (
-  "color": (
-    "base": color("grey.dark-30"),
-    "regular": color("grey.dark-8"),
-    "secondary": color("grey.light-12"),
-    "disabled": color("grey.light-20"),
-    "placeholder": color("grey.light-30")
-  ),
   "size": (
-    "xs": 12px,
-    "sm": 13px,
-    "base": 14px,
-    "lg": 16px,
-    "xl": 18px,
-    "2xl": 20px
-  ),
-  "line-height": (
-    "min": 1,
-    "tight": 1.25,
-    "snug": 1.375,
-    "base": 1.5,
-    "relaxed": 1.625,
-    "loose": 2
+    "secondary": 12px,
+    "normal": 14px,
+    "title": 16px,
   ),
   "weight": (
-    "hairline": 100,
-    "thin": 300,
-    "base": 400,
-    "semibold": 500,
+    "thin": 100,
+    "normal": 400,
     "bold": 700
   )
 );
 
 $border: (
-  "base": 1px solid color("grey.light-36"),
+  "normal": 1px solid color("grey.light-36"),
   "color": (
-    "base": color("grey.light-36"),
+    "normal": color("grey.light-36"),
     "light-1": color("grey.light-40"),
     "light-2": color("grey.light-44")
   ),
   "width": (
-    "base": 1px
+    "normal": 1px
   ),
   "style": (
-    "base": solid
+    "normal": solid
   ),
   "radius": (
     "xs": 2px,
     "sm": 3px,
-    "base": 4px,
+    "normal": 4px,
     "lg": 6px,
     "xl": 8px,
     "circle": 100%,
@@ -101,213 +97,13 @@ $border: (
 
 $bg: (
   "color": (
-    "base": color("white"),
+    "normal": color("white"),
     "light-1": color("grey.light-48")
   )
 );
 
 $box-shadow: (
   "dark-1": #{"0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.12)"},
-  "base": #{"0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04)"},
+  "normal": #{"0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04)"},
   "light-1": #{"0 2px 12px 0 rgba(0, 0, 0, 0.1)"}
 );
-
-// $button: (
-//   "font": (
-//     "color": get($font, "color")
-//   ),
-//   "bg": (
-//     "color": get($bg, "color")
-//   ),
-//   "border": (
-//     "color": get($border, "color"),
-//   ),
-//   "hover": (
-//     "font": (
-//       "color": color("primary"),
-//     ),
-//     "bg": (
-//       "color": color("primary.light-32"),
-//     ),
-//     "border": (
-//       "color": color("primary.light-4"),
-//     ),
-//   ),
-//   "active": (
-//     "font": (
-//       "color": color("primary.dark-10"),
-//     ),
-//     "border": (
-//       "color": color("primary.dark-20"),
-//     ),
-//   ),
-//   "primary": (
-//     "font": (
-//       "color": color("white"),
-//     ),
-//     "bg": (
-//       "color": color("primary"),
-//     ),
-//     "border": (
-//       "color": color("primary"),
-//     ),
-//     "hover": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": color("primary.light-8"),
-//       ),
-//       "border": (
-//         "color": color("primary.light-8"),
-//       ),
-//     ),
-//     "active": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": color("primary.dark-8"),
-//       ),
-//       "border": (
-//         "color": color("primary.dark-8"),
-//       ),
-//     ),
-//   ),
-
-//   "warning": (
-//     "font": (
-//       "color": color("white"),
-//     ),
-//     "bg": (
-//       "color": color("warning"),
-//     ),
-//     "border": (
-//       "color": color("warning"),
-//     ),
-//     "hover": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": color("warning.light-10"),
-//       ),
-//       "border": (
-//         "color": color("warning.light-10"),
-//       ),
-//     ),
-//     "active": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": color("warning.dark-10"),
-//       ),
-//       "border": (
-//         "color": color("warning.dark-10"),
-//       ),
-//     ),
-//   ),
-//   "success": (
-//     "font": (
-//       "color": color("white"),
-//     ),
-//     "bg": (
-//       "color": color("success"),
-//     ),
-//     "border": (
-//       "color": color("success"),
-//     ),
-//     "hover": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": color("success.light-16"),
-//       ),
-//       "border": (
-//         "color": color("success.light-16"),
-//       ),
-//     ),
-//     "active": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": color("success.dark-16"),
-//       ),
-//       "border": (
-//         "color": color("success.dark-16"),
-//       ),
-//     ),
-//   ),
-//   "danger": (
-//     "font": (
-//       "color": color("white"),
-//     ),
-//     "bg": (
-//       "color": color("danger"),
-//     ),
-//     "border": (
-//       "color": color("danger"),
-//     ),
-//     "hover": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": mix(#fff, color("danger"), 30%),
-//       ),
-//       "border": (
-//         "color": mix(#fff, color("danger"), 30%),
-//       ),
-//     ),
-//     "active": (
-//       "font": (
-//         "color": color("white"),
-//       ),
-//       "bg": (
-//         "color": mix(#000, color("danger"), 30%),
-//       ),
-//       "border": (
-//         "color": mix(#000, color("danger"), 30%),
-//       ),
-//     ),
-//   ),
-//   // "medium": (
-//   //   "font": (
-//   //     "size": get($font, "size.sm")
-//   //   ),
-//   //   "border": (
-//   //     "radius": get($border, "radius.sm")
-//   //   ),
-//   //   "padding": (
-//   //     "vertical": 10px,
-//   //     "horizontal": 18px
-//   //   )
-//   // ),
-//   // "small": (
-//   //   "font": (
-//   //     "size": get($font, "size.xs")
-//   //   ),
-//   //   "border": (
-//   //     "radius" get($border, "radius.xs")
-//   //   ),
-//   //   "padding": (
-//   //     "vertical": 8px,
-//   //     "horizontal": 16px
-//   //   )
-//   // ),
-//   // "mini": (
-//   //   "font": (
-//   //     "size": get($font, "size.xs")
-//   //   ),
-//   //   "border": (
-//   //     "radius" get($border, "radius.xs")
-//   //   ),
-//   //   "padding": (
-//   //     "vertical": 6px,
-//   //     "horizontal": 14px
-//   //   )
-//   // )
-// );
